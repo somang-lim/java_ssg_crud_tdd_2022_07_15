@@ -7,12 +7,13 @@ import java.util.Scanner;
 public class App {
 
     private static Scanner sc;
-    private static int wiseSayingLastId;
+    private static int wiseSayingLastIndexId;
     private static List<WiseSaying> wiseSayings;
+    private static Rq rq;
 
     public App(Scanner sc) {
         this.sc = sc;
-        wiseSayingLastId = 0;
+        wiseSayingLastIndexId = 0;
         wiseSayings = new ArrayList<>();
     }
 
@@ -22,33 +23,55 @@ public class App {
         outer:
         while(true) {
             System.out.print("명령) ");
-            String cmd = sc.nextLine().trim();
+            rq = new Rq(sc.nextLine().trim());
 
-            switch(cmd) {
+
+            switch(rq.getPath()) {
                 case "등록" :
-                    int id = ++wiseSayingLastId;
+                    int id = ++wiseSayingLastIndexId;
                     System.out.print("명언 : ");
                     String content = sc.nextLine();
                     System.out.print("작가 : ");
                     String author = sc.nextLine();
 
-                    WiseSaying wiseSaying = new WiseSaying(id, content, author);
+                    wiseSayings.add(new WiseSaying(id, content, author));
 
-                    wiseSayings.add(wiseSaying);
-
-                    System.out.printf("%d번 명언이 등록되었습니다.\n", wiseSaying.getId());
+                    System.out.printf("%d번 명언이 등록되었습니다.\n", id);
                     break;
                 case "목록" :
                     System.out.println("번호 / 작가 / 명언");
                     System.out.println("----------------------");
-                    for(int i = wiseSayingLastId - 1; i >= 0; i--) {
-                        wiseSaying = wiseSayings.get(i);
+                    for(int i = wiseSayings.size() - 1; i >= 0; i--) {
+                        WiseSaying wiseSaying = wiseSayings.get(i);
                         System.out.printf("%d / %s / %s\n", wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent());
                     }
+                    break;
+                case "삭제" :
+                    id = rq.getIntParam("id", 0);
+
+                    if(id == 0) {
+                        System.out.println("번호를 입력해주세요.");
+                        continue;
+                    }
+
+                    WiseSaying wiseSaying = findById(id);
+
+                    wiseSayings.remove(wiseSaying);
+
+                    System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
                     break;
                 case "종료" :
                     break outer;
             }
         }
+    }
+
+    private static WiseSaying findById(int id) {
+        for(WiseSaying wiseSaying : wiseSayings) {
+            if(wiseSaying.getId() == id) {
+                return wiseSaying;
+            }
+        }
+        return null;
     }
 }
