@@ -36,7 +36,7 @@ public class Rq {
         }
     }
 
-    public int getIntStream(String paramName, int defaultValue) {
+    public int getIntParam(String paramName, int defaultValue) {
         if(!queryParams.containsKey(paramName)) {
             return defaultValue;
         }
