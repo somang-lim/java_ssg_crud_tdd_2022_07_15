@@ -46,7 +46,7 @@ public class App {
                         System.out.printf("%d / %s / %s\n", wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent());
                     }
                     break;
-                case "삭제" :
+                case "수정" :
                     id = rq.getIntParam("id", 0);
 
                     if(id == 0) {
@@ -57,7 +57,34 @@ public class App {
                     WiseSaying wiseSaying = findById(id);
 
                     if(wiseSaying == null) {
-                        System.out.printf("%d번 명언이 존재하지 않습니다.", id);
+                        System.out.printf("%d번 명언이 존재하지 않습니다.\n", id);
+                        continue;
+                    }
+
+                    System.out.printf("명언(기존) : %s\n", wiseSaying.getContent());
+                    System.out.print("명언 : ");
+                    content = sc.nextLine();
+
+                    System.out.printf("작가(기존) : %s\n", wiseSaying.getAuthor());
+                    System.out.print("작가 : ");
+                    author = sc.nextLine();
+
+                    wiseSaying.setContent(content);
+                    wiseSaying.setAuthor(author);
+
+                    break;
+                case "삭제" :
+                    id = rq.getIntParam("id", 0);
+
+                    if(id == 0) {
+                        System.out.println("번호를 입력해주세요.");
+                        continue;
+                    }
+
+                    wiseSaying = findById(id);
+
+                    if(wiseSaying == null) {
+                        System.out.printf("%d번 명언이 존재하지 않습니다.\n", id);
                     }
 
                     wiseSayings.remove(wiseSaying);
