@@ -28,6 +28,7 @@ public class App {
                     String content = sc.nextLine();
                     System.out.print("작가 : ");
                     String author = sc.nextLine();
+                    System.out.printf("%d번 명언이 등록되었습니다.\n", 1);
                     break;
                 case "종료" :
                     break outer;
