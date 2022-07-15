@@ -56,6 +56,10 @@ public class App {
 
                     WiseSaying wiseSaying = findById(id);
 
+                    if(wiseSaying == null) {
+                        System.out.printf("%d번 명언이 존재하지 않습니다.", id);
+                    }
+
                     wiseSayings.remove(wiseSaying);
 
                     System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
